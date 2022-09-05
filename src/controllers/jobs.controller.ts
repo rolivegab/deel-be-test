@@ -11,7 +11,7 @@ import { jobsService } from "../services/jobs.service";
 const unpaid = async (req: Request, res: Response) => {
   try {
     const { id: profileId } = await authorizationService.checkProfile(req);
-    const unpaidJobs = jobsService.findAllByProfileIdAndStatus(
+    const unpaidJobs = await jobsService.findAllByProfileIdAndStatus(
       profileId,
       ContractStatus.IN_PROGRESS
     );

@@ -30,7 +30,8 @@ const findAllByProfileIdAndStatus = async (
   return await JobModel.findAll({
     include: {
       model: ContractModel,
-      as: JobModel.associations.contract.as,
+      as: "contract",
+      attributes: [],
       where: {
         status,
         [Op.or]: [

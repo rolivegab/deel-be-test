@@ -26,12 +26,10 @@ const pay = async (req: Request, res: Response) => {
     const { jobId } = req.params;
     const job = await dbService.connection.transaction(async (transaction) => {
       const profile = await authorizationService.checkProfile(req, transaction);
-      const job = await jobsService.findOneByIdAndPaid(
-        Number(jobId),
-        false,
-        transaction
-      );
+      const job = await jobsService.findByPk(Number(jobId), transaction);
       if (!job) throw new NotFoundException("job not found");
+      if (job.paid === true)
+        throw new ConflictException("job was already paid");
       const contract = await job.getContract({ transaction });
       if (profile.id !== contract.clientId) {
         throw new ForbiddenException(

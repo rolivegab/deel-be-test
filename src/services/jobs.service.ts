@@ -4,8 +4,11 @@ import { ContractModel, ContractStatus } from "../models/contract.model";
 import { JobModel } from "../models/job.model";
 import { ProfileModel, ProfileType } from "../models/profile.model";
 
-const findByPk = async (profileId: number) => {
-  return await JobModel.findByPk(profileId);
+const findByPk = async (
+  profileId: number,
+  transaction?: Sequelize.Transaction
+) => {
+  return await JobModel.findByPk(profileId, { transaction });
 };
 
 const findOneByIdAndPaid = async (

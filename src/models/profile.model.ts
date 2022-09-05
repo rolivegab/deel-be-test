@@ -3,7 +3,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
 } from "@sequelize/core/types";
-import { Sequelize } from "../exports/Sequelize";
+import Sequelize from "@sequelize/core";
 import { dbService } from "../services/db.service";
 
 export enum ProfileType {

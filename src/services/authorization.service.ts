@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { UnauthorizedException } from "../exceptions/Unauthorized.exception";
-import { Sequelize } from "../exports/Sequelize";
+import Sequelize from "@sequelize/core";
 import { ProfileModel } from "../models/profile.model";
 
 const checkProfile = async (

@@ -6,7 +6,7 @@ import {
   InferCreationAttributes,
   NonAttribute,
 } from "@sequelize/core/types";
-import { Sequelize } from "../exports/Sequelize";
+import Sequelize from "@sequelize/core";
 import { dbService } from "../services/db.service";
 import { JobModel } from "./job.model";
 import { ProfileModel } from "./profile.model";

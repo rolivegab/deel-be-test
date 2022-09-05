@@ -17,8 +17,11 @@ export const associateRelations = () => {
     as: "contract",
   });
   ProfileModel.hasMany(ContractModel, {
-    as: "contractor",
+    as: "contractsAsClient",
+    foreignKey: "clientId",
+  });
+  ProfileModel.hasMany(ContractModel, {
+    as: "contractsAsContractor",
     foreignKey: "contractorId",
   });
-  ProfileModel.hasMany(ContractModel, { as: "client", foreignKey: "clientId" });
 };

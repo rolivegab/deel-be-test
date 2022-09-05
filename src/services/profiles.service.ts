@@ -1,4 +1,4 @@
-import { Sequelize } from "../exports/Sequelize";
+import Sequelize from "@sequelize/core";
 import { ProfileModel } from "../models/profile.model";
 
 const findByPk = async (

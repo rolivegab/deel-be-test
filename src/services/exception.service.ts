@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { ClientException } from "../exceptions/ClientException";
 import { ConflictException } from "../exceptions/Conflict.exception";
 import { ForbiddenException } from "../exceptions/Forbidden.exception";
 import { NotFoundException } from "../exceptions/NotFound.exception";
@@ -13,6 +14,8 @@ const handleErrorResponse = (error: unknown, res: Response) => {
     res.status(403).send(error.message);
   } else if (error instanceof ConflictException) {
     res.status(409).send(error.message);
+  } else if (error instanceof ClientException) {
+    res.status(400).send(error.message);
   } else {
     res.status(500).end();
     console.error(error);

@@ -1,6 +1,7 @@
-import { app } from "./app";
+import { getApp } from "./getApp";
 
 try {
+  const app = getApp();
   app.listen(3001, () => {
     console.log("Express App Listening on Port 3001");
   });

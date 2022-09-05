@@ -1,8 +1,8 @@
 import { Op } from "@sequelize/core";
-import { Sequelize } from "../exports/Sequelize";
+import Sequelize from "@sequelize/core";
 import { ContractModel, ContractStatus } from "../models/contract.model";
 import { JobModel } from "../models/job.model";
-import { ProfileModel } from "../models/profile.model";
+import { ProfileModel, ProfileType } from "../models/profile.model";
 
 const findByPk = async (profileId: number) => {
   return await JobModel.findByPk(profileId);
@@ -87,33 +87,41 @@ const findBestClientsInRange = async (
   endDate: Date,
   limit?: number
 ) => {
-  return await ProfileModel.findAll({
-    attributes: [
-      "Profile.*",
-      [Sequelize.fn("sum", Sequelize.col("price")), "amount"],
-    ],
-    group: ["Profile.id"],
-    limit,
-    include: [
-      {
-        model: ContractModel,
-        as: "contract",
-        include: [
-          {
-            model: JobModel,
-            as: "jobs",
-            where: {
-              paymentDate: {
-                [Op.gte]: startDate.toISOString(),
-                [Op.lt]: endDate.toISOString(),
-              },
-            },
-          },
-        ],
-        required: true,
+  return await JobModel.findAll({
+    where: {
+      paymentDate: {
+        [Op.gte]: startDate.toISOString(),
+        [Op.lt]: endDate.toISOString(),
       },
+    },
+    attributes: [
+      "id",
+      [
+        Sequelize.fn(
+          "CONCAT",
+          Sequelize.col("firstName"),
+          " ",
+          Sequelize.col("lastName")
+        ),
+        "fullName",
+      ],
+      [Sequelize.fn("sum", Sequelize.col("price")), "paid"],
     ],
-    order: [[Sequelize.col("amount"), "desc"]],
+    group: ["contract->client.id", "Job.id", "contract.id"],
+    limit,
+    include: {
+      model: ContractModel,
+      as: "contract",
+      attributes: [],
+      include: [
+        {
+          model: ProfileModel,
+          as: "client",
+        },
+      ],
+      required: true,
+    },
+    order: [[Sequelize.col("paid"), "desc"]],
   });
 };
 

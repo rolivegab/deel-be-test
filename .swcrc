@@ -1,0 +1,10 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "topLevelAwait": true
+    },
+    "target": "es2022"
+  },
+  "sourceMaps": true
+}
